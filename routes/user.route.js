@@ -15,13 +15,14 @@ userRouter.get("/signup", (req, res) => {
 // {/* SIGN IN */}
 userRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.matchPassword(email, password);
-  // if (!user) {
-  //   return res.redirect("/signin");
-  // }
 
-  console.log("User found: ", user);
-  return res.redirect("/");
+  try {
+    const token = await User.matchPasswordAndGenerateToken(email, password);
+
+    return res.cookie("token", token).redirect("/");
+  } catch (error) {
+    return res.render("signin", { error: "Invalid email or password" });
+  }
 });
 
 // {/* SIGN UP */}
