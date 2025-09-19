@@ -32,23 +32,26 @@ userSchema.pre("save", function (next) {
   next();
 });
 
-userSchema.static("matchPasswordAndGenerateToken", async function (email, password) {
-  const user = await this.findOne({ email });
+userSchema.static(
+  "matchPasswordAndGenerateToken",
+  async function (email, password) {
+    const user = await this.findOne({ email });
 
-  if (!user) throw new Error("User not found!!");
+    if (!user) throw new Error("User not found!!");
 
-  const salt = user.salt;
-  const hashedPassword = user.password;
+    const salt = user.salt;
+    const hashedPassword = user.password;
 
-  const userProvidedHashedPassword = createHmac("sha256", salt)
-    .update(password)
-    .digest("hex");
+    const userProvidedHashedPassword = createHmac("sha256", salt)
+      .update(password)
+      .digest("hex");
 
-  if (userProvidedHashedPassword !== hashedPassword)
-    throw new Error("Invalid password!!");
+    if (userProvidedHashedPassword !== hashedPassword)
+      throw new Error("Invalid password!!");
 
-  const token = createTokenForUser(user);
-  return token;
-});
+    const token = createTokenForUser(user);
+    return token;
+  }
+);
 
 export const User = mongoose.model("User", userSchema);
