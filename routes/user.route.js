@@ -37,3 +37,8 @@ userRouter.post("/signup", async (req, res) => {
 
   return res.redirect("/");
 });
+
+// {/* SIGN OUT */}
+userRouter.get("/signout", (req, res) => {
+  return res.clearCookie("token").redirect("/");
+});
