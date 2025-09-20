@@ -6,6 +6,7 @@ import { Blog } from "../models/Blog.model.js";
 
 export const blogRouter = Router();
 
+// {/* MULTER FOR FILE STORAGE */}
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.resolve(`./public/uploads/`));
@@ -18,8 +19,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// {/* ROUTER */}
 blogRouter.get("/add-new-blog", (req, res) => {
   return res.render("addBlog", { user: req.user });
+});
+
+blogRouter.get("/:id", async (req, res) => {
+  const blog = await Blog.findById(req.params.id).populate("createdBy");
+  return res.render("blog", { blog, user: req.user });
 });
 
 blogRouter.post("/", upload.single("coverImage"), async (req, res) => {
