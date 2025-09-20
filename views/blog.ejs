@@ -28,8 +28,42 @@
         class="rounded-circle"
         width="60"
         height="60"
-      /> &nbsp;
-      <%= blog.createdBy.fullName %>
+      />
+      &nbsp; <%= blog.createdBy.fullName %>
+    </div>
+
+    <div class="container mt-5">
+      <h3 class="">Comments (<%= comments.length %>)</h3>
+      <% if (locals.user) { %>
+      <form action="/blog/comment/<%= blog._id %>" method="POST">
+        <div class="mb-2 mt-4">
+          <textarea
+            name="content"
+            class="form-control"
+            placeholder="Add a comment..."
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4 mb-4">Send</button>
+      </form>
+
+      <% } %>
+      
+      <div class="mt-4">
+        <% comments.forEach(comment => { %>
+        <div>
+          <img
+            src="<%= comment.createdBy.profileImgURL %>"
+            alt="profile picture"
+            class="rounded-circle"
+            width="40"
+            height="40"
+          />
+          &nbsp; <%= comment.createdBy.fullName %>
+
+          <pre class="mt-2"><%= comment.content %></pre>
+        </div>
+        <% }) %>
+      </div>
     </div>
     <%- include('./partials/scripts.ejs') %>
   </body>
