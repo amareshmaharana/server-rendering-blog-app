@@ -2,6 +2,9 @@ import express from "express";
 import path from "path";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 import { userRouter } from "./routes/user.route.js";
 import { checkForAuthenticationCookie } from "./middlewares/auth.middleware.js";
@@ -9,11 +12,11 @@ import { blogRouter } from "./routes/blog.route.js";
 import { Blog } from "./models/Blog.model.js";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // {/* ++++++ DATABASE CONNECTION ++++++ */}
 mongoose
-  .connect("mongodb://localhost:27017/blognode")
+  .connect(process.env.MONGODB_URL)
   .then((e) => console.log("DB successfully connected"))
   .catch((e) => console.log(e));
 
