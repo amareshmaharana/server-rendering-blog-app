@@ -9,7 +9,7 @@ dotenv.config();
 import { userRouter } from "./routes/user.route.js";
 import { checkForAuthenticationCookie } from "./middlewares/auth.middleware.js";
 import { blogRouter } from "./routes/blog.route.js";
-import { Blog } from "./models/Blog.model.js";
+import { Blog } from "./models/blog.model.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
