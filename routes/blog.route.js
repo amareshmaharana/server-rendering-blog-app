@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 import path from "path";
 
-import { Blog } from "../models/Blog.model.js";
+import { Blog } from "../models/blog.model.js";
 import { Comment } from "../models/comment.model.js";
 
 export const blogRouter = Router();
